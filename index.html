@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/b9330691ee.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+  <style>
+    button {
+      width: 50px;
+      border: 1px solid rgb(241, 241, 244);
+      background-color: inherit;
+      color: #ffff;
+      border-radius: 12px;
+      padding: 3px 10px;
+    }
+
+    input {
+      outline: 1px;
+      border-color: rgb(239, 225, 225);
+    }
+
+    input::placeholder {
+      color: rgb(15, 15, 15);
+    }
+    .fa-solid:hover {
+      color: blue;
+    }
+  </style>
+
+  <body style="background-color: rgb(90, 86, 86); color: rgb(254, 252, 252)">
+    <div>
+      <div style="margin: 30px auto; width: 750px">
+        <form action="" onsubmit="add(event)">
+          <input type="text" name="name" placeholder="name" />
+          <input type="text" name="college" id="" placeholder="college " />
+          <input type="text" name="city" id="" placeholder="city" />
+          <input type="text" name="rank" id="" placeholder="rank" />
+          <button type="submit" style="width: 50px">ADD</button>
+        </form>
+      </div>
+      <table border="1" width="60%" align="center">
+        <thead>
+          <th onclick="name(event)"><i class="fa-solid fa-sort"></i> name</th>
+          <th onclick="name(event)">
+            <i class="fa-solid fa-sort"></i> college
+          </th>
+          <th onclick="name(event)"><i class="fa-solid fa-sort"></i> city</th>
+          <th onclick="name(event)"><i class="fa-solid fa-sort"></i> rank</th>
+        </thead>
+        <tbody id="table"></tbody>
+      </table>
+    </div>
+
+    <script>
+      let data = [];
+      let tbody = document.getElementById("table");
+
+      function table() {
+        data = JSON.parse(localStorage.getItem("obj"));
+        console.log(data);
+        if (data === null) {
+          data = [];
+        } else {
+          data.map((ele) => {
+            console.log(ele);
+            let tr = document.createElement("tr");
+            for (let i in ele) {
+              let td = document.createElement("td");
+              td.innerText = ele[i];
+              tr.appendChild(td);
+              tbody.appendChild(tr);
+            }
+          });
+        }
+      }
+      table();
+
+      function add(event) {
+        event.preventDefault();
+        tbody.innerHTML = "";
+        let newdata = {
+          name: "",
+          college: "",
+          city: "",
+          rank: "",
+        };
+        newdata.name = event.target.name.value;
+        newdata.college = event.target.college.value;
+        newdata.city = event.target.city.value;
+        newdata.rank = +event.target.rank.value;
+        data.push(newdata);
+        localStorage.setItem("obj", JSON.stringify(data));
+        table();
+      }
+
+      function name(e) {
+        tbody.innerHTML = "";
+        data.sort((a, b) => {
+          if (typeof a[e.target.innerText] === "string") {
+            return a[e.target.innerText].toLowerCase() >
+              b[e.target.innerText].toLowerCase()
+              ? 1
+              : -1;
+          }
+          return a[e.target.innerText] > b[e.target.innerText] ? 1 : -1;
+        });
+        table();
+      }
+    </script>
+  </body>
+</html>
