@@ -61,14 +61,13 @@
       let data = [];
       let tbody = document.getElementById("table");
 
-      function table() {
+      function table() { 
+        
         data = JSON.parse(localStorage.getItem("obj"));
-        console.log(data);
         if (data === null) {
           data = [];
         } else {
           data.map((ele) => {
-            console.log(ele);
             let tr = document.createElement("tr");
             for (let i in ele) {
               let td = document.createElement("td");
@@ -101,15 +100,15 @@
 
       function name(e) {
         tbody.innerHTML = "";
+        
         data.sort((a, b) => {
           if (typeof a[e.target.innerText] === "string") {
-            return a[e.target.innerText].toLowerCase() >
-              b[e.target.innerText].toLowerCase()
-              ? 1
-              : -1;
+            return a[e.target.innerText].toLowerCase() > 
+              b[e.target.innerText].toLowerCase()? 1: -1; 
           }
           return a[e.target.innerText] > b[e.target.innerText] ? 1 : -1;
         });
+        localStorage.setItem("obj", JSON.stringify(data));
         table();
       }
     </script>
